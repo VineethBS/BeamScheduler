@@ -6,7 +6,6 @@ classdef BeamSchedulerSystem
         MTT;
         Environment;
         Radar;
-        Scheduler;
         simulation_start_time;
         simulation_step_time;
         simulation_end_time;
@@ -24,14 +23,12 @@ classdef BeamSchedulerSystem
             end
             % initialize the Environment with the configuration parameters
             o.Environment = Environment(environment_parameters);
-            % initialize the Radar with its configuration_parameters
-            o.Radar = Radar(radar_parameters);
-            % initialize the Scheduler with its configuration parameters
-            o.Scheduler = Scheduler(scheduler_parameters);
             % initialize the Multi Target Tracker object with the configuration parameters
             o.MTT = MultiTargetTracker(filter_type, filter_parameters, gating_method_type, gating_method_parameters, ...
                 data_association_type, data_association_parameters, track_maintenance_type, track_maintenance_parameters);
-            
+            % initialize the Radar with its configuration_parameters
+            o.Radar = Radar(radar_parameters, o.MTT);
+
             % initialize other variables
             o.simulation_start_time = simulation_start_time;
             o.simulation_step_time = simulation_step_time;
@@ -46,11 +43,9 @@ classdef BeamSchedulerSystem
                 % Step 1: simulate the environment and get all observations
                 o.Environment = o.Environment.step(current_time);
                 all_observations = o.Environment.get_all_observations();
-                % Step 2: get the pointing information for the radar from the scheduler
-                pointing_information = o.Scheduler.get_pointing_information();
-                % Step 3: with the pointing information get the observations from the radar
-                observations = o.Radar.get_observations(pointing_information, all_observations);
-                % Step 4: run the MTT with one observation
+                % Step 2: get the actual observations from the radar
+                observations = o.Radar.get_observations(all_observations);
+                % Step 3: run the MTT with one set of observations
                 o.MTT = o.MTT.process_one_observation(current_time, observations);
                 
                 current_time = current_time + o.simulation_step_time;
