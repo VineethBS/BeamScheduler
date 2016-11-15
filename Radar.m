@@ -21,8 +21,8 @@ classdef Radar
             end
 
             o.scheduler_type = parameters.scheduler_type;
-            if strcmp(o.scheduler_type, 'random')
-                o.scheduler = RandomScheduler(parameters.scheduler_parameters);
+            if strcmp(o.scheduler_type, 'random1D')
+                o.scheduler = RandomScheduler1D(parameters.scheduler_parameters);
             end
         end
 

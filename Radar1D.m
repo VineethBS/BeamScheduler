@@ -20,7 +20,6 @@ classdef Radar1D
 
         function observations = get_observations(o, pointing_information, all_observations)
             observations = [];
-            o.interval_width = pointing_information.interval_width;
             o.interval_center = pointing_information.interval_center;
             % Step 1: if an observation is within the interval and if it is detected then add to the observations
             for i = 1:length(all_observations)
