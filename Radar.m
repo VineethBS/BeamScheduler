@@ -1,5 +1,5 @@
 classdef Radar
-    %Radar - models the radar. Is a wrapper class for different kinds of radars
+    %Radar - models the radar with inbuilt beam scheduling. Allows for different kinds of radars and schedulers
 
     properties
         radar_type;

@@ -27,8 +27,8 @@ gating_method_type = 'Rectangular';
 gating_method_parameters.gate_width = 1;
 
 % parameters for heuristic data association
-data_association_type = 'Heuristic';
-data_association_parameters.epsilon = 0.1;
+% data_association_type = 'Heuristic';
+% data_association_parameters.epsilon = 0.1;
 
 % parameters for JPDA 
 data_association_type = 'JPDA';
@@ -42,19 +42,13 @@ track_maintenance_parameters.confirm_threshold = 3;
 track_maintenance_parameters.confirm_M = 3;
 track_maintenance_parameters.confirm_N = 1;
 
-postprocessing_parameters.velocity_threshold_parameters.velocity_threshold = 10;
-postprocessing_parameters.velocity_threshold_parameters.direction = 'greater';
-postprocessing_parameters.atleastN_parameters.N = 10;
-
-visualization1D_parameters.filename = 'example_data.csv';
-visualization1D_parameters.plot_input = 1;
-visualization1D_parameters.plot_tracks = 1;
-visualization1D_parameters.in_field_separator = ',';
-visualization1D_parameters.plottype_input = 'ro';
-visualization1D_parameters.plottype_track = 'k';
-
-post_MTT_run_sequence = {'atleastN','velocitythreshold','plot1D'};
-post_MTT_run_parameters{1} = postprocessing_parameters;
-post_MTT_run_parameters{2} = postprocessing_parameters;
-post_MTT_run_parameters{3} = visualization1D_parameters;
+% parameters for the Radar
+radar_parameters.radar_type = '1D';
+radar_parameters.scheduler_type = 'random1D';
+radar_parameters.radar_parameters.detection_probability = 0.9;
+radar_parameters.radar_parameters.false_alarm_rate = 0.01;
+radar_parameters.radar_parameters.interval_width = 1;
+radar_parameters.radar_parameters.interval_center = 1;
+radar_parameters.scheduler_parameters.radar_volume.lower = 0;
+radar_parameters.scheduler_parameters.radar_volume.upper = 10;
 
