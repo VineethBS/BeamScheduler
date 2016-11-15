@@ -52,3 +52,13 @@ radar_parameters.radar_parameters.interval_center = 1;
 radar_parameters.scheduler_parameters.radar_volume.lower = 0;
 radar_parameters.scheduler_parameters.radar_volume.upper = 10;
 
+% parameters for the Environment
+environment_parameters.simulator_type = 'dynamicmodelenv';
+environment_parameters.simulator_parameters.initial_number_of_objects = 10;
+environment_parameters.simulator_parameters.death_probability = 0.1;
+environment_parameters.simulator_parameters.splitting_probability = 0.1;
+environment_parameters.simulator_parameters.birth_rate = 0.1;
+environment_parameters.simulator_parameters.dynamic_model_object_parameters.A = [1 0;0 1];
+environment_parameters.simulator_parameters.dynamic_model_object_parameters.C = [1 0];
+environment_parameters.simulator_parameters.dynamic_model_object_parameters.R = [1 0;0 1];
+environment_parameters.simulator_parameters.dynamic_model_object_parameters.initial_state = [0;1];
