@@ -1,6 +1,5 @@
 classdef DynamicModelEnvironment
-    %DynamicModelEnvironment - models a set of objects according to the object model in Vo and Ma
-    %   
+    %DynamicModelEnvironment - models a set of objects according to the object model in Vo and Ma  
     
     properties
         initial_number_of_objects;
@@ -32,10 +31,9 @@ classdef DynamicModelEnvironment
             % Step 4: birth of new objects
         end
         
-        function o = get_all_observations(o)
+        function observations = get_all_observations(o)
             % return a cell array of observations from the set of objects
         end
     end
     
 end
-
