@@ -52,6 +52,11 @@ classdef MultiTargetTracker
             end
         end
         
+        function [active_tracks, inactive_tracks] = get_all_tracks(o)
+            active_tracks = o.MTT.list_of_tracks;
+            inactive_tracks = o.MTT.list_of_inactive_tracks;
+        end
+
         o = predict_new_positions(o);
         gate_membership_matrix = find_gate_membership(o, observations);
         data_association_matrix = find_data_association(o, observations, gate_membership_matrix);
