@@ -27,7 +27,7 @@ classdef BeamSchedulerSystem
             o.MTT = MultiTargetTracker(filter_type, filter_parameters, gating_method_type, gating_method_parameters, ...
                 data_association_type, data_association_parameters, track_maintenance_type, track_maintenance_parameters);
             % initialize the Radar with its configuration_parameters
-            o.Radar = Radar(radar_parameters, o.MTT);
+            o.Radar = Radar(radar_parameters);
 
             % initialize other variables
             o.simulation_start_time = simulation_start_time;
@@ -44,7 +44,9 @@ classdef BeamSchedulerSystem
                 o.Environment = o.Environment.step(current_time);
                 all_observations = o.Environment.get_all_observations();
                 % Step 2: get the actual observations from the radar
-                observations = o.Radar.get_observations(all_observations);
+                [active_tracks, ~] = o.MTT.get_all_tracks();
+                all_tracks = active_tracks;
+                observations = o.Radar.get_observations(all_observations, all_tracks);
                 % Step 3: run the MTT with one set of observations
                 o.MTT = o.MTT.process_one_observation(current_time, observations);
                 
