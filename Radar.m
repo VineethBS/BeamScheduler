@@ -23,6 +23,8 @@ classdef Radar
             o.scheduler_type = parameters.scheduler_type;
             if strcmp(o.scheduler_type, 'random1D')
                 o.scheduler = RandomScheduler1D(parameters.scheduler_parameters);
+            elseif strcmp(o.scheduler_type, 'roundrobin1D')
+                o.scheduler = RoundRobinScheduler1D(parameters.scheduler_parameters);
             end
         end
 
@@ -32,4 +34,3 @@ classdef Radar
         end
     end
 end
-
