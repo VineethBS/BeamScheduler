@@ -23,7 +23,7 @@ classdef Radar1D
             o.interval_center = pointing_information.interval_center;
             % Step 1: if an observation is within the interval and if it is detected then add to the observations
             for i = 1:length(all_observations)
-                if (observations{i} >= (o.interval_center - o.interval_width/2)) && ((observations{i} <= (o.interval_center + o.interval_width/2))
+                if (observations{i} >= (o.interval_center - o.interval_width/2)) && (observations{i} <= (o.interval_center + o.interval_width/2))
                     if rand <= o.detection_probability
                         observations{end + 1} = observations{i};
                     end

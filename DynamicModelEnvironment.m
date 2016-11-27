@@ -60,7 +60,7 @@ classdef DynamicModelEnvironment
                 else
                     temp_list_of_objects{end + 1} = o.list_of_objects{i};
                     split_parameters = o.dynamic_model_object_parameters;
-                    split_parameters.state = o.list_of_objects{i}.get_state();
+                    split_parameters.initial_state = o.list_of_objects{i}.get_state();
                     temp_list_of_objects{end + 1} = DynamicModelObject(split_parameters);
                 end
             end

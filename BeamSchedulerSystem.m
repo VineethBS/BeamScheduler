@@ -1,7 +1,8 @@
 classdef BeamSchedulerSystem
     % Beam Scheduler System - models the complete system for testing of beam scheduler algorithms
     % The beam scheduler system is made up of (i) the environment and object simulator which simulates the environment
-    % around the radar, (ii) the radar simulator itself, (iii) the scheduler, and (iv) the MTT system
+    % around the radar, (ii) the radar simulator itself, (iii) the scheduler, and (iv) the MTT system.
+    % The scheduler is considered to be part of the radar simulator.s
     properties
         MTT;
         Environment;
@@ -10,6 +11,8 @@ classdef BeamSchedulerSystem
         simulation_start_time;
         simulation_step_time;
         simulation_end_time;
+        
+        configuration_file;
     end
     
     methods
