@@ -42,12 +42,14 @@ classdef BeamSchedulerSystem
             while current_time <= o.simulation_end_time
                 
                 % Step 1: simulate the environment and get all observations
-                o.Environment = o.Environment.step(current_time);
                 all_observations = o.Environment.get_all_observations();
+                o.Environment = o.Environment.step(current_time);
+                
                 % Step 2: get the actual observations from the radar
                 [active_tracks, ~] = o.MTT.get_all_tracks(); % for illustration - only active tracks
                 all_tracks = active_tracks;
                 observations = o.Radar.get_observations(all_observations, all_tracks);
+                
                 % Step 3: run the MTT with one set of observations
                 o.MTT = o.MTT.process_one_observation(current_time, observations);
                 
