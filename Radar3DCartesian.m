@@ -12,7 +12,7 @@ classdef Radar3DCartesian
     end
     
     methods
-        function o = Radar1D(parameters)
+        function o = Radar3DCartesian(parameters)
             o.detection_probability = parameters.detection_probability;
             o.false_alarm_rate = parameters.false_alarm_rate;
             o.interval_center = parameters.interval_center;
