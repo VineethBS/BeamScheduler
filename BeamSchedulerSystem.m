@@ -13,6 +13,9 @@ classdef BeamSchedulerSystem
         simulation_end_time;
         
         configuration_file;
+        
+        post_run_sequence;
+        post_run_parameters;
     end
     
     methods
@@ -60,5 +63,29 @@ classdef BeamSchedulerSystem
             end
             
         end
+        
+        function o = post_run(o)
+            tracks = [o.MTT.list_of_tracks, o.MTT.list_of_inactive_tracks];
+            for i = 1:length(o.post_MTT_run_sequence)
+                instruction = o.post_MTT_run_sequence{i};
+                if strcmp(instruction, 'atleastN')
+                    temp = PostProcessing(o.post_MTT_run_parameters{i});
+                    tracks = temp.find_tracks_atleast_N_detections(tracks); % tracks change here
+                elseif strcmp(instruction, 'velocitythreshold')
+                    temp = PostProcessing(o.post_MTT_run_parameters{i});
+                    tracks = temp.find_tracks_velocity_threshold(tracks); % tracks change here
+                elseif strcmp(instruction, 'plot1D')
+                    temp = Visualization(o.post_MTT_run_parameters{i});
+                    temp.plot_1D(tracks);
+                elseif strcmp(instruction, 'plot3D')
+                    temp = Visualization(o.post_MTT_run_parameters{i});
+                    temp.plot_3D(tracks);
+                elseif strcmp(instruction, 'savetracks')
+                    temp = Reporting(o.post_MTT_run_parameters{i});
+                    temp.save_tracks(tracks);
+                end
+            end
+        end
+
     end
 end 
