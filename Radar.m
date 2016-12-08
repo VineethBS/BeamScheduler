@@ -30,7 +30,7 @@ classdef Radar
 
         function observations = get_observations(o, all_observations, all_tracks)
             pointing_information = o.scheduler.get_pointing_information(all_tracks);
-            observations = o.radar.get_observations(o, pointing_information, all_observations);
+            observations = o.radar.get_observations(pointing_information, all_observations);
         end
     end
 end
