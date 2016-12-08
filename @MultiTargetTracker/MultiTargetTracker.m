@@ -53,8 +53,8 @@ classdef MultiTargetTracker
         end
         
         function [active_tracks, inactive_tracks] = get_all_tracks(o)
-            active_tracks = o.MTT.list_of_tracks;
-            inactive_tracks = o.MTT.list_of_inactive_tracks;
+            active_tracks = o.list_of_tracks;
+            inactive_tracks = o.list_of_inactive_tracks;
         end
 
         o = predict_new_positions(o);
