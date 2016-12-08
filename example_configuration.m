@@ -63,3 +63,14 @@ environment_parameters.simulator_parameters.dynamic_model_object_parameters.A = 
 environment_parameters.simulator_parameters.dynamic_model_object_parameters.C = [1 0];
 environment_parameters.simulator_parameters.dynamic_model_object_parameters.R = 1;
 environment_parameters.simulator_parameters.dynamic_model_object_parameters.initial_state = [0;1];
+
+%% parameters for the Visualizer
+visualization1D_parameters.plot_input = 1;
+visualization1D_parameters.plot_tracks = 1;
+visualization1D_parameters.plot_radar = 1;
+visualization1D_parameters.plottype_input = 'ro';
+visualization1D_parameters.plottype_track = 'k';
+visualization1D_parameters.plottype_radar = 'c';
+
+post_MTT_run_sequence = {'plot1D'};
+post_MTT_run_parameters{1} = visualization1D_parameters;
