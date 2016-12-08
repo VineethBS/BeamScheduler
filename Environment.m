@@ -29,8 +29,9 @@ classdef Environment
             o.simulator = o.simulator.step(time);
         end
         
-        function observations = get_all_observations(o)
+        function observations = get_all_observations(o, time)
             observations = o.simulator.get_all_observations();
+            o = o.record_all_observations(time, observations);
         end
         
         function o = record_all_observations(o, time, all_observations)
