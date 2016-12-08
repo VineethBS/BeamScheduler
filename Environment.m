@@ -20,7 +20,7 @@ classdef Environment
         end
 
         function o = step(o, time)
-            o.simulator.step(time);
+            o.simulator = o.simulator.step(time);
         end
         
         function observations = get_all_observations(o)
