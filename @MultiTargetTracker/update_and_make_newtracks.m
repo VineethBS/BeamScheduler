@@ -13,7 +13,7 @@ for i = 1:num_of_observations
     
     if data_association_matrix(i, end) == 1
         if gate_membership_matrix(i, end) == 1
-            t = Track(o.filter_type, o.filter_parameters, current_observation);
+            t = Track(o.filter_type, o.filter_parameters, time, current_observation);
             t = t.record_first_observation(time);
             t = t.record_associated_observation(time, current_observation);
         else
@@ -26,7 +26,7 @@ for i = 1:num_of_observations
             end
             [~, track_from_which_split] = min(cost_vector);
             t = o.list_of_tracks{track_from_which_split}.split_track();
-            t = t.update(current_observation);
+            t = t.update(time, current_observation);
             t = t.record_predicted_observation(time);
             t = t.record_associated_observation(time, current_observation);
         end
@@ -36,7 +36,7 @@ for i = 1:num_of_observations
         for j = 1:num_of_tracks
             if data_association_matrix(i, j) == 1
                 o.list_of_tracks{j} = o.list_of_tracks{j}.record_predicted_observation(time);
-                o.list_of_tracks{j} = o.list_of_tracks{j}.update(current_observation);
+                o.list_of_tracks{j} = o.list_of_tracks{j}.update(time, current_observation);
                 o.list_of_tracks{j} = o.list_of_tracks{j}.record_associated_observation(time, current_observation);
             end 
         end
@@ -49,7 +49,7 @@ for j = 1:num_of_tracks
         % Option 1 : Use the observation corresponding to the state without prediction
         % o.list_of_tracks{j} = o.list_of_tracks{j}.update(o.list_of_tracks{j}.get_observation());
         % Option 2 : Use the observation corresponding to the predicted state
-        o.list_of_tracks{j} = o.list_of_tracks{j}.update(o.list_of_tracks{j}.get_predicted_observation());
+        o.list_of_tracks{j} = o.list_of_tracks{j}.update(time, o.list_of_tracks{j}.get_predicted_observation());
         o.list_of_tracks{j} = o.list_of_tracks{j}.record_predicted_observation(time);
     end
 end
