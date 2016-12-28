@@ -10,7 +10,7 @@ classdef Visualization
             o.visualization_parameters = parameters;
         end
         
-        plot_1D(o, tracks);
+        plot_1D(o, tracks, sequence_times, sequence_observations, sequence_pointing_information, radar_parameters);
         plot_3D(o, tracks);
     end
     
