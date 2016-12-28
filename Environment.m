@@ -29,16 +29,20 @@ classdef Environment
             o.simulator = o.simulator.step(time);
         end
         
-        function observations = get_all_observations(o, time)
+        function [o, observations] = get_all_observations(o, time)
             observations = o.simulator.get_all_observations();
             o = o.record_all_observations(time, observations);
         end
         
         function o = record_all_observations(o, time, all_observations)
-            sequence_times(end + 1) = time;
-            sequence_all_observations{end + 1} = all_observations;
+            o.sequence_times(end + 1) = time;
+            o.sequence_all_observations{end + 1} = all_observations;
+        end
+        
+        function [sequence_times, sequence_observations] = get_sequence_observations(o)
+            sequence_times = o.sequence_times;
+            sequence_observations = o.sequence_all_observations;
         end
     end
-    
 end
 
