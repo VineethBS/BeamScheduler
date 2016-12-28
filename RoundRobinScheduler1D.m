@@ -8,7 +8,7 @@ classdef RoundRobinScheduler1D
     end
     
     methods
-        function o = RandomScheduler1D(parameters)
+        function o = RoundRobinScheduler1D(parameters)
             o.radar_volume = parameters.radar_volume;
             o.current_track = -1;
         end
@@ -25,6 +25,8 @@ classdef RoundRobinScheduler1D
                     pointing_information.interval_center = all_tracks{o.current_track}.get_observation();
                 end
                 o.current_track=o.current_track+1;
+            else
+                pointing_information.interval_center = (o.radar_volume.upper + o.radar_volume.lower)/2;
             end
         end
     end
