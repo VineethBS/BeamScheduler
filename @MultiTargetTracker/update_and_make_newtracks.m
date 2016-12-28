@@ -51,6 +51,8 @@ for j = 1:num_of_tracks
         % Option 2 : Use the observation corresponding to the predicted state
         o.list_of_tracks{j} = o.list_of_tracks{j}.update(time, o.list_of_tracks{j}.get_predicted_observation());
         o.list_of_tracks{j} = o.list_of_tracks{j}.record_predicted_observation(time);
+        % update the track with the time at which there was no observation and the interval did not include the
+        % predicted observation
     end
 end
 
