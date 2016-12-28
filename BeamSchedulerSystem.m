@@ -50,26 +50,27 @@ classdef BeamSchedulerSystem
         function o = run(o)
             current_time = o.simulation_start_time;
             while current_time <= o.simulation_end_time
-                
                 % Step 1: simulate the environment and get all observations
-                all_observations = o.Environment.get_all_observations();
+                [o.Environment, all_observations] = o.Environment.get_all_observations(current_time);
                 o.Environment = o.Environment.step(current_time);
                 
                 % Step 2: get the actual observations from the radar
                 [active_tracks, ~] = o.MTT.get_all_tracks(); % for illustration - only active tracks
                 all_tracks = active_tracks;
-                observations = o.Radar.get_observations(all_observations, all_tracks);
+                [o.Radar, observations] = o.Radar.get_observations(current_time, all_observations, all_tracks);
                 
                 % Step 3: run the MTT with one set of observations
                 o.MTT = o.MTT.process_one_observation(current_time, observations);
-                
                 current_time = current_time + o.simulation_step_time;
-            end
-            
+            end            
         end
         
         function o = post_run(o)
             tracks = [o.MTT.list_of_tracks, o.MTT.list_of_inactive_tracks];
+            [sequence_times, sequence_observations] = o.Environment.get_sequence_observations();
+            [~, sequence_pointing_information] = o.Radar.get_sequence_pointing_information();
+            radar_parameters = o.Radar.get_radar_parameters();
+            
             for i = 1:length(o.post_run_sequence)
                 instruction = o.post_run_sequence{i};
                 if strcmp(instruction, 'atleastN')
@@ -80,7 +81,7 @@ classdef BeamSchedulerSystem
                     tracks = temp.find_tracks_velocity_threshold(tracks); % tracks change here
                 elseif strcmp(instruction, 'plot1D')
                     temp = Visualization(o.post_run_parameters{i});
-                    temp.plot_1D(tracks);
+                    temp.plot_1D(tracks, sequence_times, sequence_observations, sequence_pointing_information, radar_parameters);
                 elseif strcmp(instruction, 'plot3D')
                     temp = Visualization(o.post_run_parameters{i});
                     temp.plot_3D(tracks);
@@ -90,6 +91,5 @@ classdef BeamSchedulerSystem
                 end
             end
         end
-
     end
 end 
