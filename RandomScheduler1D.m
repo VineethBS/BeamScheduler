@@ -13,6 +13,7 @@ classdef RandomScheduler1D
         end
 
         function pointing_information = get_pointing_information(o, all_tracks)
+            % pointing_information.interval_center = (o.radar_volume.lower + o.radar_volume.upper)/2;
             pointing_information.interval_center = o.radar_volume.lower + rand * (o.radar_volume.upper - o.radar_volume.lower);
         end
     end
