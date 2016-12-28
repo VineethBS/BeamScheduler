@@ -18,7 +18,7 @@ classdef KalmanFilter
     end
     
     methods
-        function o = KalmanFilter(parameters, initial_observation)
+        function o = KalmanFilter(parameters, time, initial_observation)
             o.A = parameters.A;
             o.C = parameters.C;
             o.Q = parameters.Q;
@@ -34,7 +34,7 @@ classdef KalmanFilter
         end
         
         % state update for a single observation - such as in the case of GNN
-        function o = update(o, observation)
+        function o = update(o, time, observation)
             o.kalman_gain = o.predicted_covariance * o.C' * inv(o.C * o.predicted_covariance * o.C' + o.R);
             o.state = o.predicted_state + o.kalman_gain * (observation - o.C * o.predicted_state);
             o.covariance = o.predicted_covariance - o.kalman_gain * o.C * o.predicted_covariance;
@@ -49,7 +49,7 @@ classdef KalmanFilter
         % Note that there is an error in eqs 2.12 (the transpose of the Wk term has to be taken)
         % Note that under JPDA the update in the posterior probability is only approximated by the state and covariance
         % updates.
-        function o = update_with_multiple_observations(o, observations, observation_probability, probability_no_assoc_observation)
+        function o = update_with_multiple_observations(o, time, observations, observation_probability, probability_no_assoc_observation)
             num_observations = length(observations);
             predicted_observation = o.get_predicted_observation();
             combined_innovation = zeros(length(predicted_observation), 1);
@@ -69,7 +69,26 @@ classdef KalmanFilter
             o.covariance = o.predicted_covariance - (1 - probability_no_assoc_observation) * o.kalman_gain * o.C * o.predicted_covariance + ...
                 o.kalman_gain * innovation_sample_covariance * o.kalman_gain';
         end
-            
+        % return the current state
+        function state = get_state(o)
+            state = o.state;
+        end
+        
+        % set the current state - to be used by IMM
+        function o = set_state(o, state)
+            o.state = state;
+        end
+        
+        % return the current covariance
+        function covariance = get_covariance(o)
+            covariance = o.covariance;
+        end
+        
+        % set the current covariance - to be used by IMM
+        function o = set_covariance(o, covariance)
+            o.covariance = covariance;
+        end
+        
         % return the observation corresponding to the current state of the filter
         function observation = get_observation(o)
             observation = o.C * o.state;
