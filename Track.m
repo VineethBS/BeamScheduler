@@ -12,11 +12,21 @@ classdef Track
     end
     
     methods
-        function o = Track(filter_type, filter_parameters, initial_observation)
+        function o = Track(filter_type, filter_parameters, time, initial_observation)
             if strcmp(filter_type,'kalmanfilter')
-                o.filter = KalmanFilter(filter_parameters, initial_observation);
+                o.filter = KalmanFilter(filter_parameters, time, initial_observation);
             elseif strcmp(filter_type, 'alphabetafilter')
-                o.filter = AlphaBetaFilter(filter_parameters, initial_observation);
+                o.filter = AlphaBetaFilter(filter_parameters, time, initial_observation);
+            elseif strcmp(filter_type, 'extendedkalmanfilter')
+                o.filter = ExtendedKalmanFilter(filter_parameters, time, initial_observation);
+            elseif strcmp(filter_type, 'unscentedkalmanfilter')
+                o.filter = UnscentedKalmanFilter(filter_parameters, time, initial_observation);
+            elseif strcmp(filter_type, 'staticmultimodal')
+                o.filter = StaticMultiModalFilter(filter_parameters, time, initial_observation);
+            elseif strcmp(filter_type, 'interactingmultimodal')
+                o.filter = InteractingMultiModalFilter(filter_parameters, time, initial_observation);
+            elseif strcmp(filter_type, 'multistepkalmanfilter')
+                o.filter = MultiStepUpdateKalmanFilter(filter_parameters, time, initial_observation);
             end
             o.sequence_times_observations = [];
             o.sequence_observations = {};
@@ -48,12 +58,12 @@ classdef Track
             o.sequence_observations{end + 1} = observation;
         end
         
-        function o = update(o, observation)
-            o.filter = o.filter.update(observation);
+        function o = update(o, time, observation)
+            o.filter = o.filter.update(time, observation);
         end
         
-        function o = update_with_multiple_observations(o, observations, observation_probability, probability_no_assoc_observation)
-            o.filter = o.filter.update_with_multiple_observations(observations, observation_probability, probability_no_assoc_observation);
+        function o = update_with_multiple_observations(o, time, observations, observation_probability, probability_no_assoc_observation)
+            o.filter = o.filter.update_with_multiple_observations(time, observations, observation_probability, probability_no_assoc_observation);
         end
         
         function o = split_track(o)
