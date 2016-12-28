@@ -5,6 +5,7 @@ classdef DynamicModelEnvironment
         initial_number_of_objects;
         list_of_objects;
         dynamic_model_object_parameters;
+        dynamic_model_object_default_parameters;
         death_probability;
         splitting_probability;
         birth_rate;
@@ -15,12 +16,17 @@ classdef DynamicModelEnvironment
             o.initial_number_of_objects = parameters.initial_number_of_objects;
             o.list_of_objects = [];
             o.dynamic_model_object_parameters = parameters.dynamic_model_object_parameters;
+            o.dynamic_model_object_default_parameters = parameters.dynamic_model_object_default_parameters;
             o.death_probability = parameters.death_probability;
             o.splitting_probability = parameters.splitting_probability;
             o.birth_rate = parameters.birth_rate;
             
             for i = 1:o.initial_number_of_objects
-                o.list_of_objects{i} = DynamicModelObject(o.dynamic_model_object_parameters);
+                if i <= size(o.dynamic_model_object_parameters,2)
+                    o.list_of_objects{i} = DynamicModelObject(o.dynamic_model_object_parameters{i});
+                else
+                    o.list_of_objects{i} = DynamicModelObject(o.dynamic_model_object_default_parameters);
+                end
             end
         end
         
@@ -69,7 +75,7 @@ classdef DynamicModelEnvironment
         
         function  o = object_update(o)
             for i = 1:length(o.list_of_objects)
-                o.list_of_objects{i}.step();
+                o.list_of_objects{i} = o.list_of_objects{i}.step();
             end
         end
         
@@ -80,5 +86,5 @@ classdef DynamicModelEnvironment
                 all_observations{i} = o.list_of_objects{i}.get_observation();
             end
         end
-    end    
+    end
 end
