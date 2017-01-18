@@ -9,6 +9,7 @@ classdef Track
         sequence_observations; % the set of observations associated to this track
         sequence_times; % all the time instants during which this track is active
         sequence_predicted_observations; % the observations predicted by the internal state
+        sequence_times_notobserved;
     end
     
     methods
@@ -58,8 +59,17 @@ classdef Track
             o.sequence_observations{end + 1} = observation;
         end
         
+         function o = record_notobserved_times(o, time)
+            o.sequence_times_notobserved = [o.sequence_times_notobserved, time];
+         
+         end
+        
         function o = update(o, time, observation)
             o.filter = o.filter.update(time, observation);
+        end
+        
+        function o = update_with_noobservation(o, time)
+            o.filter = o.filter.update_with_noobservation(time);
         end
         
         function o = update_with_multiple_observations(o, time, observations, observation_probability, probability_no_assoc_observation)

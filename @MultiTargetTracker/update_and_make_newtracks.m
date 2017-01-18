@@ -47,9 +47,12 @@ end
 for j = 1:num_of_tracks
     if sum(data_association_matrix(:, j)) == 0
         % Option 1 : Use the observation corresponding to the state without prediction
-        % o.list_of_tracks{j} = o.list_of_tracks{j}.update(o.list_of_tracks{j}.get_observation());
+%         o.list_of_tracks{j} = o.list_of_tracks{j}.update(time,o.list_of_tracks{j}.get_observation());
         % Option 2 : Use the observation corresponding to the predicted state
-        o.list_of_tracks{j} = o.list_of_tracks{j}.update(time, o.list_of_tracks{j}.get_predicted_observation());
+        % o.list_of_tracks{j} = o.list_of_tracks{j}.update(time, o.list_of_tracks{j}.get_predicted_observation());
+        % Option 3 : copy predicted state and covariance to current state and covariance
+          o.list_of_tracks{j} = o.list_of_tracks{j}.update_with_noobservation(time);
+          
         o.list_of_tracks{j} = o.list_of_tracks{j}.record_predicted_observation(time);
         % update the track with the time at which there was no observation and the interval did not include the
         % predicted observation
